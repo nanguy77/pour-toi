@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Joyeux anniversaire Faïka 💗</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  min-height:100dvh;
+  background:radial-gradient(circle at top,#3a0028,#12000f 45%,#050005 80%);
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+  color:white;
+}
+
+canvas{position:fixed;inset:0;z-index:1;}
+
+.intro{
+  position:fixed;inset:0;z-index:5;
+  display:flex;justify-content:center;align-items:center;flex-direction:column;
+}
+
+.count{
+  font-size:150px;font-weight:bold;color:#ff7ac9;
+  text-shadow:0 0 20px #ff4fb3,0 0 45px #ff1493,0 0 80px #ff7ac9;
+  opacity:0;transform:scale(0.7);transition:0.35s ease;
+}
+
+.count.show{opacity:1;transform:scale(1);}
+
+.cute{
+  font-family:'Pacifico', cursive;
+  font-size:90px;color:#ffd1ec;letter-spacing:3px;
+}
+
+.bubble{
+  position:fixed;
+  pointer-events:none;
+  z-index:6;
+  animation:bubbleAnim 1.3s ease forwards;
+}
+
+@keyframes bubbleAnim{
+  0%{opacity:0;transform:scale(0.4);}
+  25%{opacity:1;}
+  100%{opacity:0;transform:translateY(-70px) scale(1.7);}
+}
+
+.intro-bear{
+  position:fixed;bottom:90px;left:50%;
+  transform:translateX(-50%);
+  width:260px;z-index:20;display:none;
+  filter:drop-shadow(0 0 20px rgba(255,182,230,0.9));
+  animation:bearFloat 3s ease-in-out infinite;
+}
+
+@keyframes bearFloat{
+  0%,100%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(-10px);}
+}
+
+.main-btn{
+  position:fixed;bottom:35px;left:50%;
+  transform:translateX(-50%);
+  z-index:20;padding:14px 32px;border:none;border-radius:30px;
+  background:linear-gradient(135deg,#ff5fb8,#ff9bd8);
+  color:white;font-size:18px;font-weight:bold;cursor:pointer;
+  box-shadow:0 0 25px #ff5fb8;display:none;
+}
+
+.card-screen{
+  position:fixed;inset:0;z-index:10;
+  display:none;justify-content:center;align-items:center;
+}
+
+.book{
+  width:360px;height:520px;position:relative;perspective:1500px;
+}
+
+.cover{
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#ff4fa3,#ff9ad5);
+  border-radius:18px;position:absolute;z-index:10;
+  transform-origin:left;transition:1.5s;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:25px;box-shadow:0 0 40px #ff4fa3;
+  cursor:pointer;backface-visibility:hidden;
+}
+
+.book.open .cover{
+  transform:rotateY(-160deg);
+  opacity:0;
+  pointer-events:none;
+}
+
+.book.close{
+  transform:rotateY(0);
+  opacity:1;
+}
+
+.cover h1{font-size:28px;margin-bottom:10px;}
+.cover p{font-size:16px;}
+
+.cover-img{
+  width:180px;margin:15px 0;border-radius:20px;
+  box-shadow:0 0 20px rgba(255,122,201,0.6);
+  animation:floatCat 3s ease-in-out infinite;
+}
+
+@keyframes floatCat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
+
+.page{
+  width:100%;height:100%;
+  background:linear-gradient(180deg,#fff7fb,#ffe1f0);
+  color:#4b0030;border-radius:18px;padding:30px;
+  box-shadow:0 0 35px #ff7ac9;
+  overflow:hidden;position:absolute;
+}
+
+.letter{
+  height:100%;
+  overflow:hidden;
+  font-size:18px;
+  line-height:1.8;
+  text-align:center;
+  opacity:0;
+  transition:1s;
+  position:relative;
+  padding:10px;
+}
+
+.book.open .letter{opacity:1;}
+
+#text{
+  white-space:pre-line;
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow-y:auto;
+  padding:10px 12px;
+  font-size:16px;
+  line-height:1.7;
+  font-weight:500;
+  color:#3d0026;
+  text-align:center;
+}
+
+#text::-webkit-scrollbar{width:6px;}
+#text::-webkit-scrollbar-thumb{
+  background:#ff7ac9;
+  border-radius:10px;
+}
+
+.photo-heart{
+  position:fixed;inset:0;z-index:15;display:none;
+}
+
+.photo{
+  position:absolute;width:90px;height:90px;object-fit:cover;
+  border-radius:18px;border:3px solid white;box-shadow:0 0 25px #ff8ed6;
+  opacity:0;transform:scale(0) rotate(20deg);transition:1s ease;
+}
+
+.photo.show{opacity:1;transform:scale(1) rotate(0deg);}
+
+.finalText{
+  position:fixed;top:7%;width:100%;text-align:center;z-index:16;
+  display:none;color:#ffd1ec;font-size:42px;font-weight:bold;
+  text-shadow:0 0 18px #ff4fb3;
+}
+
+.card-heart{
+  position:absolute;color:#ff7ac9;animation:float 6s linear infinite;
+  opacity:0.8;pointer-events:none;z-index:2;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh) scale(0.5);opacity:1;}
+  to{transform:translateY(-10vh) scale(1.5);opacity:0;}
+}
+
+button{
+  margin-top:10px;padding:10px 18px;border:none;border-radius:20px;
+  background:#ff4fa3;color:white;font-size:14px;cursor:pointer;
+  box-shadow:0 0 10px #ff4fa3;
+}
+
+@media(max-width:600px){
+  body{
+    min-height:100dvh;
+  }
+
+  .count{
+    font-size:105px;
+  }
+
+  .cute{
+    font-size:48px;
+  }
+
+  .intro-bear{
+    width:220px;
+    bottom:95px;
+  }
+
+  .main-btn{
+    bottom:30px;
+    font-size:16px;
+    padding:13px 26px;
+  }
+
+  .book{
+    width:92vw;
+    height:78dvh;
+    max-height:560px;
+  }
+
+  .cover h1{
+    font-size:24px;
+  }
+
+  .cover p{
+    font-size:14px;
+  }
+
+  .cover-img{
+    width:160px;
+  }
+
+  .page{
+    padding:22px;
+  }
+
+  #text{
+    font-size:15px;
+    line-height:1.65;
+    padding:8px 10px;
+  }
+
+  .photo{
+    width:62px;
+    height:62px;
+    border-radius:14px;
+    border:2px solid white;
+  }
+
+  .finalText{
+    font-size:28px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="intro" id="intro">
+  <div class="count" id="count">3</div>
+</div>
+
+<img src="ourson.png" class="intro-bear" id="introBear">
+
+<button class="main-btn" id="openCardBtn" onclick="showCard()">Ouvrir la carte 💌</button>
+
+<div class="card-screen" id="cardScreen">
+  <div class="book" id="book">
+    <div class="cover" onclick="openBook()">
+      <h1>Joyeux anniversaire 🎂</h1>
+      <p>Une petite carte, rien que pour toi 💗</p>
+      <img src="mochi.gif" class="cover-img">
+      <button>Ouvrir la carte</button>
+    </div>
+
+    <div class="page">
+      <div class="letter">
+<p id="text">
+Déjà 5 ans qu’on se connaît… bientôt 6.
+Et aujourd’hui, tu as 18 ans…
+tu as grandi, ma princesse ✨🙃
+
+Malgré la distance, tu continues de m’aimer…
+et ça, c’est quelque chose que je n’oublierai jamais.
+Tout ce temps passé avec toi,
+mon cœur n’a jamais arrêté de battre pour toi 💘
+
+Un jour, ce mur qui nous sépare disparaîtra…
+et ce jour-là,
+on n’aura plus besoin d’imaginer.
+Tu pourras enfin me serrer dans tes bras pour de vrai,
+et moi, je pourrai enfin te garder contre moi ❤️
+
+Je sais à quel point tu aimerais passer une journée entière avec moi…
+moi aussi, j’en rêve tous les jours.
+Juste toi et moi, sans distance, sans écran… juste nous.
+
+Parce qu’au fond,
+peu importe la distance,
+c’est avec toi que je veux avancer,
+c’est avec toi que je veux construire ma vie.
+
+Si un jour je devais choisir une autre fille,
+je te choisirais encore et encore,
+sans hésiter.
+Car c’est toi que j’aime,
+toi et personne d’autre.
+Tu es ma femme,
+pas juste ma petite copine.
+
+Avec toi,
+ce n’est pas juste une histoire…
+c’est toute ma vie 💘
+
+Je ne le dis peut-être pas toujours assez,
+mais je tiens vraiment à toi,
+plus que tout.
+
+Joyeux anniversaire ma princesse ❤️  
+Je t’aime plus que tout.
+</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="finalText" id="finalText">Nos souvenirs en cœur 💕</div>
+<div class="photo-heart" id="photoHeart"></div>
+
+<audio id="music" src="music.mp3"></audio>
+
+<script>
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const emojis = ["💗","💕","💖","🦋","✨","🌸"];
+let particles = [];
+
+for(let i = 0; i < 65; i++){
+  particles.push({
+    x:Math.random() * canvas.width,
+    y:Math.random() * canvas.height,
+    size:Math.random() * 16 + 10,
+    speed:Math.random() * 0.9 + 0.3,
+    emoji:emojis[Math.floor(Math.random() * emojis.length)],
+    opacity:Math.random() * 0.5 + 0.35
+  });
+}
+
+function drawParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach(p=>{
+    ctx.globalAlpha = p.opacity;
+    ctx.font = p.size + "px Arial";
+    ctx.fillText(p.emoji,p.x,p.y);
+
+    p.y += p.speed;
+    p.x += Math.sin(p.y * 0.01) * 0.4;
+
+    if(p.y > canvas.height + 30){
+      p.y = -30;
+      p.x = Math.random() * canvas.width;
+    }
+  });
+
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(drawParticles);
+}
+
+drawParticles();
+
+window.addEventListener("resize",()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+const count = document.getElementById("count");
+
+function sleep(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
+
+function createBubbles(){
+  const rect = count.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+
+  const cuteEmojis = ["💗","💕","✨","🌸","🦋"];
+
+  for(let i = 0; i < 18; i++){
+    const cute = document.createElement("div");
+    cute.className = "bubble";
+    cute.innerHTML = cuteEmojis[Math.floor(Math.random() * cuteEmojis.length)];
+
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 70 + Math.random() * 70;
+
+    cute.style.left = (cx + Math.cos(angle) * radius) + "px";
+    cute.style.top = (cy + Math.sin(angle) * radius) + "px";
+    cute.style.fontSize = "24px";
+
+    document.body.appendChild(cute);
+    setTimeout(()=>cute.remove(),1300);
+  }
+}
+
+async function startIntro(){
+  await sleep(3000);
+
+  const list = ["3","2","1","HAPPY","BIRTHDAY","FAÏKA"];
+
+  for(let t of list){
+    count.innerText = t;
+
+    if(t === "HAPPY" || t === "BIRTHDAY" || t === "FAÏKA"){
+      count.classList.add("cute");
+    }else{
+      count.classList.remove("cute");
+      createBubbles();
+    }
+
+    count.classList.add("show");
+    await sleep(950);
+    count.classList.remove("show");
+    await sleep(300);
+  }
+
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("introBear").style.display = "block";
+  document.getElementById("openCardBtn").style.display = "block";
+}
+
+startIntro();
+
+function showCard(){
+  document.getElementById("introBear").style.display = "none";
+  document.getElementById("openCardBtn").style.display = "none";
+  document.getElementById("cardScreen").style.display = "flex";
+}
+
+let started = false;
+
+function openBook(){
+  if(!started){
+    started = true;
+
+    const book = document.getElementById("book");
+    book.classList.add("open");
+
+    const music = document.getElementById("music");
+    music.volume = 0;
+    music.play();
+
+    let vol = 0;
+    const fade = setInterval(()=>{
+      if(vol < 0.4){
+        vol += 0.02;
+        music.volume = vol;
+      }else{
+        clearInterval(fade);
+      }
+    },200);
+  }
+}
+
+const photoHeart = document.getElementById("photoHeart");
+const finalText = document.getElementById("finalText");
+
+const photos = [
+  "img1.jpg","img2.jpg","img3.jpg","img4.jpg","img5.jpg","img6.jpg","img7.jpg"
+];
+
+function showPhotoHeart(){
+  photoHeart.innerHTML = "";
+  photoHeart.style.display = "block";
+  finalText.style.display = "block";
+
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2 + 40;
+  const scale = window.innerWidth < 600 ? 8 : 14;
+
+  photos.forEach((src,i)=>{
+    const img = document.createElement("img");
+    img.src = src;
+    img.className = "photo";
+
+    const t = Math.PI * 2 * (i / photos.length);
+
+    const x = 16 * Math.pow(Math.sin(t),3);
+    const y = 13 * Math.cos(t)
+            - 5 * Math.cos(2*t)
+            - 2 * Math.cos(3*t)
+            - Math.cos(4*t);
+
+    img.style.left = (cx + x * scale - 45) + "px";
+    img.style.top = (cy - y * scale - 45) + "px";
+
+    photoHeart.appendChild(img);
+
+    setTimeout(()=>{
+      img.classList.add("show");
+    },i * 250);
+  });
+}
+
+function createCardHeart(){
+  const heart = document.createElement("div");
+  heart.className = "card-heart";
+  heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💗";
+
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 20 + 15 + "px";
+  heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),7000);
+}
+
+setInterval(createCardHeart,400);
+</script>
+
+</body>
+</html>
